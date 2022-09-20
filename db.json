@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john_doe@mail.com",
+      "password": "12345"
+    }
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "Joe Black",
+      "email": ["joe_black@mail.com", "joe_black@othermail.com"],
+      "phone": ["+7 (777) 777-77-77", "+7 (888) 888-88-88"],
+      "address": ["Russia, Moscow, Pushkina st. 1 appart. 1", "Russia, Moscow, Lenina st. 1 appart. 1"]
+    }
+  ]
+}
