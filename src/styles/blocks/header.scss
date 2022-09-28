@@ -1,0 +1,31 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.header {
+  height: auto !important;
+  padding: 16px 0 !important;
+
+  line-height: 1.2 !important;
+
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    color: $color-default-white;
+  }
+
+  &__logout-btn {
+    // margin-left: auto;
+  }
+
+  &--fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+  }
+}

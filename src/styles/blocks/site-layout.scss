@@ -1,0 +1,49 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.site-layout {
+  min-height: 100vh !important;
+
+  &__content {
+    flex-grow: 1;
+
+    &--auth-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &--fixed-header {
+      padding-top: 64px;
+    }
+  }
+
+  &__auth-form-wrapper {
+    width: 330px;
+    max-width: 100%;
+    padding: 20px 15px;
+
+    background-color: $color-default-white;
+    border-radius: 10px;
+
+    overflow: hidden;
+  }
+
+  &__contacts-content-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  &__contacts-controls {
+    margin-bottom: 20px;
+  }
+
+  &__contacts-card {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}

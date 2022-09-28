@@ -1,8 +1,12 @@
 import React from 'react';
-import {Routes, Route, useLocation, useNavigate} from 'react-router-dom'
+import {Routes, Route, useLocation, useNavigate} from 'react-router-dom';
+import { RequireAuth } from './Auth'
 import logo from './logo.svg';
-import { Counter } from './features/Counter';
-import './App.css';
+import { PageAuth, PageContacts } from './containers';
+import 'antd/dist/antd.css';
+import './styles/global/container.scss';
+import './styles/blocks/site-layout.scss';
+// import './App.css';
 
 function App() {
   return (
@@ -55,7 +59,11 @@ function App() {
     // </div>
     <>
       <Routes>
-        <Route path="/" element={<Counter />} />
+        <Route path="/" element={<PageAuth />} />
+
+        <Route element={<RequireAuth/>}>
+          <Route path="/contacts" element={<PageContacts />} />
+        </Route>
       </Routes>
     </>
   );
