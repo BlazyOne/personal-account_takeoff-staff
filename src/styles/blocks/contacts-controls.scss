@@ -12,6 +12,15 @@
   }
 
   &__sorting {
+    display: flex;
+    align-items: center;
+  }
+
+  &__sorting-label {
+    margin-right: 6px;
+  }
+
+  &__sorting-select {
     width: 100px;
   }
 }

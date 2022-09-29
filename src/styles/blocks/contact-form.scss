@@ -1,0 +1,15 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.contact-form {
+  &__item-wrapper {
+    &--deletable {
+      display: flex;
+    }
+  }
+
+  &__item-delete-btn {
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+}

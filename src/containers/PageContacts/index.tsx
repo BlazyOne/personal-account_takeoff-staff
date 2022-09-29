@@ -4,7 +4,7 @@ import { currentUser, clearUser } from '../../redux/slices/user';
 import { contactsItems } from '../../redux/slices/contacts';
 import { downloadContactsData } from '../../redux/actions/contacts';
 import { Layout, Button, Input, Select } from 'antd';
-import { ContactsCard } from '../../components';
+import { ContactsCard, NewContactModal } from '../../components';
 import { LogoutOutlined } from '@ant-design/icons';
 import '../../styles/blocks/header.scss';
 import '../../styles/blocks/contacts-controls.scss';
@@ -28,6 +28,8 @@ const PageContacts: FC = () => {
   const [searchString, setSearchString] = useState('');
   const [sortedItems, setSortedItems] = useState(contactsItemsRedux);
   const [filteredItems, setFilteredItems] = useState(contactsItemsRedux);
+
+  const [showNewContactModal, setShowNewContactModal] = useState(false);
 
   useEffect(() => {
     if (currentUserRedux) {
@@ -106,17 +108,30 @@ const PageContacts: FC = () => {
                 setSearchString(e.target.value);
               }}
             />
-            <Select
-              className='contacts-controls__sorting'
-              defaultValue={SortValues.DEFAULT}
-              onChange={(value) => {
-                setSortType(value);
-              }}
+            <div className='contacts-controls__sorting'>
+              <span className='contacts-controls__sorting-label'>Sorting:</span>
+              <Select
+                className='contacts-controls__sorting-select'
+                defaultValue={SortValues.DEFAULT}
+                onChange={(value) => {
+                  setSortType(value);
+                }}
+              >
+                <Option value={SortValues.DEFAULT}>Default</Option>
+                <Option value={SortValues.NAME_ASC}>Name asc.</Option>
+                <Option value={SortValues.NAME_DESC}>Name desc.</Option>
+              </Select>
+            </div>
+            <Button
+              type='primary'
+              onClick={() => setShowNewContactModal(true)}
             >
-              <Option value={SortValues.DEFAULT}>Default</Option>
-              <Option value={SortValues.NAME_ASC}>Name asc.</Option>
-              <Option value={SortValues.NAME_DESC}>Name desc.</Option>
-            </Select>
+              New contact
+            </Button>
+            <NewContactModal
+              isOpen={showNewContactModal}
+              closeModal={() => setShowNewContactModal(false)}
+            />
           </div>
           {
             filteredItems && filteredItems.length > 0 && (
