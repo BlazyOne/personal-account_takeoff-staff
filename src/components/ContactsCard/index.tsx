@@ -1,9 +1,24 @@
 import { FC, useState } from 'react';
 import cx from 'classnames';
 import { IContactsCard } from './ContactsCard.d';
+import { useAppDispatch } from '../../redux/hooks';
+import { deleteContactItem } from '../../redux/actions/contacts';
+import { Button, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import '../../styles/blocks/contacts-card.scss';
 
+const { confirm } = Modal;
+
+const showDeleteConfirm = (name: string | undefined, onOk: () => void) => {
+  confirm({
+    title: `Do you want to delete contact "${name}"`,
+    icon: <ExclamationCircleOutlined/>,
+    onOk
+  });
+}
+
 const ContactsCard : FC<IContactsCard> = ({ className, data }) => {
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -55,6 +70,25 @@ const ContactsCard : FC<IContactsCard> = ({ className, data }) => {
           )}
         </div>
       )}
+      <div className='contacts-card__btns-wrapper'>
+        <Button className='contacts-card__btn' type='primary'>
+          Edit
+        </Button>
+        <Button
+          className='contacts-card__btn'
+          type='primary'
+          danger
+          onClick={() => showDeleteConfirm(
+            data?.name,
+            () => {
+              if (data?.id) {
+                dispatch(deleteContactItem(data.id));
+              }
+            })}
+        >
+          Delete
+        </Button>
+      </div>
     </div>
   );
 };

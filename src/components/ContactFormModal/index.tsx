@@ -1,18 +1,28 @@
 import { FC } from 'react';
-import { INewContactModal } from './NewContactModal.d';
+import { IContactFormModal } from './ContactFormModal';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { currentUser } from '../../redux/slices/user';
+import { addContactItem } from '../../redux/actions/contacts';
 import { Modal, Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import '../../styles/blocks/contact-form.scss';
 
-interface ContactFormValues {
+export interface ContactFormValues {
   name: string
   email?: string[]
+  phone?: string[]
+  address?: string[]
 }
 
-const NewContactModal: FC<INewContactModal> = ({ isOpen, closeModal }) => {
+const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal }) => {
+  const dispatch = useAppDispatch();
+  const currentUserRedux = useAppSelector(currentUser);
+
   const onFinish = (values: ContactFormValues) => {
-    console.log(values);
-    // closeModal();
+    // console.log(values);
+    const dataToSend = JSON.stringify(Object.assign({}, values, { userId: currentUserRedux?.id }));
+    dispatch(addContactItem(dataToSend));
+    closeModal();
   }
 
   return (

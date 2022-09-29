@@ -69,4 +69,16 @@
       }
     }
   }
+
+  &__btns-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-right: -15px;
+  }
+
+  &__btn {
+    margin-top: 15px;
+    margin-right: 15px;
+  }
 }

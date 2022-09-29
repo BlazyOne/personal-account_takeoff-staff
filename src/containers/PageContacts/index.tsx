@@ -4,7 +4,7 @@ import { currentUser, clearUser } from '../../redux/slices/user';
 import { contactsItems } from '../../redux/slices/contacts';
 import { downloadContactsData } from '../../redux/actions/contacts';
 import { Layout, Button, Input, Select } from 'antd';
-import { ContactsCard, NewContactModal } from '../../components';
+import { ContactsCard, ContactFormModal } from '../../components';
 import { LogoutOutlined } from '@ant-design/icons';
 import '../../styles/blocks/header.scss';
 import '../../styles/blocks/contacts-controls.scss';
@@ -128,7 +128,7 @@ const PageContacts: FC = () => {
             >
               New contact
             </Button>
-            <NewContactModal
+            <ContactFormModal
               isOpen={showNewContactModal}
               closeModal={() => setShowNewContactModal(false)}
             />

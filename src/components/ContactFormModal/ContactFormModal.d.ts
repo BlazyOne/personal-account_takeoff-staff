@@ -1,4 +1,4 @@
-export interface INewContactModal {
+export interface IContactFormModal {
   isOpen: boolean
   closeModal: () => void
 }

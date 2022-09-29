@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
-import { APItype, RootState } from '../store';
+import { APItype } from '../store';
 import { ContactsItem } from '../slices/contacts';
 
 export const downloadContactsData = createAsyncThunk<
@@ -16,6 +16,63 @@ export const downloadContactsData = createAsyncThunk<
       const response: AxiosResponse<ContactsItem[]> = await API.get(`/contacts?userId=${userId}`);
 
       return response.data;
+    } catch(e) {
+      if (axios.isAxiosError(e) && e?.response?.statusText) {
+        return rejectWithValue(e?.response?.statusText);
+      }
+
+      if (e instanceof Error) {
+        return rejectWithValue(e.message);
+      }
+
+      throw e;
+    }
+  }
+);
+
+export const addContactItem = createAsyncThunk<
+  ContactsItem,
+  string,
+  {
+    extra: APItype
+  }
+>(
+  'contacts/addContactItem',
+  async (data, { rejectWithValue, extra: API }) => {
+    try {
+      const response: AxiosResponse<ContactsItem> = await API.post('/contacts', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      return response.data;
+    } catch(e) {
+      if (axios.isAxiosError(e) && e?.response?.statusText) {
+        return rejectWithValue(e?.response?.statusText);
+      }
+
+      if (e instanceof Error) {
+        return rejectWithValue(e.message);
+      }
+
+      throw e;
+    }
+  }
+);
+
+export const deleteContactItem = createAsyncThunk<
+  number,
+  number,
+  {
+    extra: APItype
+  }
+>(
+  'contacts/deleteContactsItem',
+  async (contactId, {rejectWithValue, extra: API}) => {
+    try {
+      await API.delete(`/contacts/${contactId}`);
+      return contactId;
     } catch(e) {
       if (axios.isAxiosError(e) && e?.response?.statusText) {
         return rejectWithValue(e?.response?.statusText);
