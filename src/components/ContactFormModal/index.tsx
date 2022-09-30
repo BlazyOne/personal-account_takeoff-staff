@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { IContactFormModal } from './ContactFormModal';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { currentUser } from '../../redux/slices/user';
@@ -40,6 +40,10 @@ const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal, editingDat
     form.resetFields();
     closeModal();
   };
+
+  useEffect(() => {
+    form.resetFields();
+  }, [isOpen, form]);
 
   const modalTitle = editingData ? 'Edit contact' : 'Create contact';
   const submitText = editingData ? 'Save' : 'Create';
