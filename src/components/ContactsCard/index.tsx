@@ -4,6 +4,7 @@ import { IContactsCard } from './ContactsCard.d';
 import { useAppDispatch } from '../../redux/hooks';
 import { deleteContactItem } from '../../redux/actions/contacts';
 import { Button, Modal } from 'antd';
+import { ContactFormModal } from '../';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import '../../styles/blocks/contacts-card.scss';
 
@@ -19,12 +20,11 @@ const showDeleteConfirm = (name: string | undefined, onOk: () => void) => {
 
 const ContactsCard : FC<IContactsCard> = ({ className, data }) => {
   const dispatch = useAppDispatch();
-  const [isEditing, setIsEditing] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   return (
     <div className={cx('contacts-card', className)}>
       <div className='contacts-card__title'>{data?.name}</div>
-      {!isEditing && (
         <div className='contacts-card__display-wrapper'>
           {data?.email && data?.email.length > 0 && (
             <div className='contacts-card__item'>
@@ -69,9 +69,12 @@ const ContactsCard : FC<IContactsCard> = ({ className, data }) => {
             </div>
           )}
         </div>
-      )}
       <div className='contacts-card__btns-wrapper'>
-        <Button className='contacts-card__btn' type='primary'>
+        <Button
+          className='contacts-card__btn'
+          type='primary'
+          onClick={() => setShowEditModal(true)}
+        >
           Edit
         </Button>
         <Button
@@ -89,6 +92,11 @@ const ContactsCard : FC<IContactsCard> = ({ className, data }) => {
           Delete
         </Button>
       </div>
+      <ContactFormModal
+        isOpen={showEditModal}
+        closeModal={() => setShowEditModal(false)}
+        editingData={data}
+      />
     </div>
   );
 };

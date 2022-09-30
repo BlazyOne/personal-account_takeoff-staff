@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { IContactFormModal } from './ContactFormModal';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { currentUser } from '../../redux/slices/user';
-import { addContactItem } from '../../redux/actions/contacts';
+import { addContactItem, editConactItem } from '../../redux/actions/contacts';
 import { Modal, Form, Input, Button } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import '../../styles/blocks/contact-form.scss';
@@ -14,22 +14,42 @@ export interface ContactFormValues {
   address?: string[]
 }
 
-const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal }) => {
+const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal, editingData }) => {
   const dispatch = useAppDispatch();
   const currentUserRedux = useAppSelector(currentUser);
 
-  const onFinish = (values: ContactFormValues) => {
-    // console.log(values);
+  const [form] = Form.useForm();
+
+  const onCreate = (values: ContactFormValues) => {
     const dataToSend = JSON.stringify(Object.assign({}, values, { userId: currentUserRedux?.id }));
     dispatch(addContactItem(dataToSend));
+    form.resetFields();
     closeModal();
+  };
+
+  const onEdit = (values: ContactFormValues) => {
+    const jsonData = JSON.stringify(Object.assign({}, values, { userId: currentUserRedux?.id }));
+    dispatch(editConactItem({ contactId: editingData?.id as number, jsonData }));
+    form.resetFields();
+    closeModal()
   }
+
+  const onFinish = editingData ? onEdit : onCreate;
+
+  const onCancel = () => {
+    form.resetFields();
+    closeModal();
+  };
+
+  const modalTitle = editingData ? 'Edit contact' : 'Create contact';
+  const submitText = editingData ? 'Save' : 'Create';
 
   return (
     <Modal
       open={isOpen}
-      onCancel={() => closeModal()}
+      onCancel={onCancel}
       footer={null}
+      title={modalTitle}
       // bodyStyle={{overflow: 'auto', maxHeight: 'calc(100vh - 200px)'}}
     >
       <Form
@@ -37,17 +57,20 @@ const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal }) => {
         name='new-contact-form'
         layout='vertical'
         onFinish={onFinish}
+        form={form}
       >
         <Form.Item
           label='Name'
           name='name'
           rules={[{ required: true, message: 'Please input name' }]}
+          initialValue={editingData ? editingData.name : ''}
         >
           <Input/>
         </Form.Item>
 
         <Form.List
           name={'email'}
+          initialValue={editingData ? editingData.email : undefined}
         >
           {(fields, { add, remove }) => (
             <>
@@ -97,6 +120,7 @@ const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal }) => {
 
         <Form.List
           name={'phone'}
+          initialValue={editingData ? editingData.phone : undefined}
         >
           {(fields, { add, remove }) => (
             <>
@@ -145,6 +169,7 @@ const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal }) => {
 
         <Form.List
           name={'address'}
+          initialValue={editingData ? editingData.address : undefined}
         >
           {(fields, { add, remove }) => (
             <>
@@ -192,9 +217,14 @@ const NewContactModal: FC<IContactFormModal> = ({ isOpen, closeModal }) => {
         </Form.List>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Create
-          </Button>
+          <div className='contact-form__main-btns'>
+            <Button className='contact-form__submit-btn' type="primary" htmlType="submit">
+              {submitText}
+            </Button>
+            <Button onClick={onCancel}>
+              Cancel
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </Modal>

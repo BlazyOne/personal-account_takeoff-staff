@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { downloadContactsData, addContactItem, deleteContactItem } from '../actions/contacts';
+import { downloadContactsData, addContactItem, deleteContactItem, editConactItem } from '../actions/contacts';
 
 export interface ContactsItem {
   id: number
@@ -88,6 +88,21 @@ export const contactsSlice = createSlice({
           });
 
           state.contactsItems.splice(index, 1);
+        }
+      }
+    );
+    builder.addCase(
+      editConactItem.fulfilled,
+      (
+        state,
+        action: PayloadAction<ContactsItem>
+      ) => {
+        if (state.contactsItems) {
+          const index = state.contactsItems.findIndex((item) => {
+            return item.id === action.payload.id
+          });
+
+          state.contactsItems.splice(index, 1, action.payload);
         }
       }
     );

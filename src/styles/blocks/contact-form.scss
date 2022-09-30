@@ -12,4 +12,13 @@
     flex-shrink: 0;
     margin-left: 8px;
   }
+
+  &__main-btns {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__submit-btn {
+    margin-right: 10px;
+  }
 }
