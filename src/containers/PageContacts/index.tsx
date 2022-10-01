@@ -38,7 +38,7 @@ const PageContacts: FC = () => {
   }, [currentUserRedux, dispatch]);
 
   useEffect(() => {
-    if (contactsItemsRedux && contactsItemsRedux?.length > 0) {
+    if (contactsItemsRedux) {
       let sortedItemsTemp = contactsItemsRedux.slice();
 
       if (sortType === SortValues.NAME_ASC) {
@@ -81,6 +81,10 @@ const PageContacts: FC = () => {
 
     setFilteredItems(filteredItemsTemp);
   }, [searchString, sortedItems]);
+
+  useEffect(() => {
+    console.log(sortedItems);
+  }, [sortedItems]);
 
   return (
     <Layout className='site-layout'>
