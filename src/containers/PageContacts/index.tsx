@@ -144,6 +144,13 @@ const PageContacts: FC = () => {
               })
             )
           }
+          {
+            (!filteredItems || filteredItems.length === 0) && (
+              <div className='site-layout__empty-list-message'>
+                The list of contacts is empty
+              </div>
+            )
+          }
         </div>
       </Content>
     </Layout>
