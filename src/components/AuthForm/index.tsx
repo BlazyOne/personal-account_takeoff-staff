@@ -14,7 +14,7 @@ const AuthForm: FC = () => {
   const dispatch = useAppDispatch();
 
   const onFinishLogin = (values: LoginValues) => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
     dispatch(login(values));
   };
 

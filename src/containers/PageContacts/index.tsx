@@ -82,10 +82,6 @@ const PageContacts: FC = () => {
     setFilteredItems(filteredItemsTemp);
   }, [searchString, sortedItems]);
 
-  useEffect(() => {
-    console.log(sortedItems);
-  }, [sortedItems]);
-
   return (
     <Layout className='site-layout'>
       <Header className='header'>

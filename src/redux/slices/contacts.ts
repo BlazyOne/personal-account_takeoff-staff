@@ -87,10 +87,7 @@ export const contactsSlice = createSlice({
             return item.id === action.payload;
           });
 
-          console.log(index);
-          // console.log(state.contactsItems[0])
           state.contactsItems.splice(index, 1);
-          // console.log(state.contactsItems[0])
         }
       }
     );

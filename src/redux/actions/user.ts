@@ -15,7 +15,6 @@ export const login = createAsyncThunk<
   async (data, { rejectWithValue, extra: API }) => {
     try {
       const response: AxiosResponse<CurrentUser[]> = await API.get(`/users?email=${data.email}&password=${data.password}`);
-      // console.log(response.data);
 
       if (response.data.length) {
         localStorage.setItem('user_id', `${response.data[0].id}`);
